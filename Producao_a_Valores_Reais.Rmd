@@ -1,21 +1,15 @@
 ---
 title: "Índice de Produção e Índice de Valor"
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
-
-* PRECISA COMPOR UM PAINEL BALANCEADO: RESTRINGIR A AMOSTRA À SUBSTÂNCIAS PRESENTES TODOS OS ANOS. 
-
-* Ponderar se isso acarreta viés
-
-* pode ser necessário renomear substâncias que aparecem com seus nomes genéricos ex: água potável de mesa. 
-
-* ponderar o custo computacional/tempo disso
-
 
 
 ```{r include=FALSE}
 library(tidyverse)
 library(lubridate)
+library('micEconIndex')
 ```
 
 ```{r carregamento CFEM, include=FALSE}
@@ -25,19 +19,18 @@ source("./R/CARREGAMENTO.R")
 ```{r subsetting}
 
 Ano_0 <- 2018
-Ano_f <- 2024
+Ano_f <- 2025
 substancias <- c(
-             "CHUMBO"
-            ,"COBRE"
-            ,"FERRO"
-            ,"NIÓBIO")
+             "FERRO"
+            # ,"COBRE"
+            # ,"CHUMBO"
+            # ,"NIÓBIO"
+            )
 
 CFEM <-
-  CFEM[CFEM$Substância %in% substancias & 
+  CFEM[grepl(pattern = substancias, CFEM$Substância) &
          CFEM$Ano >= Ano_0 &
          CFEM$Ano <= Ano_f, ]
-
-
 ```
 
 
@@ -67,7 +60,10 @@ adicionado, permite definir uma correspondência entre as variações observadas
     - ao usarmos amostragem não desconsiderar o uso de **fatores de expansão** na amostra
     - avaliar o uso de 2 subíndices: i) Ferro e ii) Outros. E combiná-los com seus pesos. $I_{geral} = aI_{Ferro} + bI_{Outros}$ em que *a + b = 1*
     
-    
+
+
+
+
     
 
 
@@ -87,33 +83,137 @@ Considere a base de contribuintes de royalties da mineração do portal DadosAbe
 O Royalty `R` da mineração (*i.e.* CFEM) é definido como $R = a.B$, em que *a = alíquota da CFEM* e *B = base de cálculo*. O *valor de operação* é o montante que vigorou nas operações de venda/transferência/consumo, sobre as quais são deduzidos os abatimentos legais, conforme a legislação em vigor. Por motivos de sigilosidade e direitos da pessoa física/jurídica o valor da operação é omitido, mas graças à proporcionalidade dos números índices de Paasche e Laspeyres, podemos usar a parte não omitida da informação, o royalty.
 A CFEM que é *Royalty* pago é uma fração da *base de cálculo* que por sua vez é fração do *valor de operação*. Tanto o quociente *B/Q* como *R/Q* são equivalentes para fins de síntetizar a *produção real* em um valor representaivo, um índice.
 
+### Índices de Valor
+
++ Refletir o impacto das variações de quantidades sobre o valor total.
++ Variação nas quantidades, ponderadas pelo peso econômico de cada bem. Esses pesos são os preços respectivos.
++ Crescimento real em termos de produção ou consumo
++ Variação do **PIB real**, descontada inflação: um IQ permite distinguir se um aumento no PIB nominal deveu-se à aumento de preços ou maior produção. 
+
+
+
+
+
 ### CFEM
 
-```{r index numbers CFEM, include=FALSE}
+```{r index numbers CFEM, echo=FALSE, message=TRUE}
 
-CFEM$P <- NA
+df <- CFEM
 # Vetor de valores unitários
-    CFEM$P <-
-      CFEM$ValorRecolhido / CFEM$QuantidadeComercializada
+df$P <- NA
+df$P <- 
+  df$ValorRecolhido / df$QuantidadeComercializada
+df[df == Inf] <- NA
+df <- na.omit(df)
+
+#df <- df[,c("Substância", "QuantidadeComercializada", "Trimestre", "P")]
+# df <- pivot_wider(df, names_from = Substância,values_from = c("P", "QuantidadeComercializada"))
+
+
+ df <-
+   summarise(
+       group_by(df, Substância, Trimestre),
+       "QuantidadeComercializada" = sum(QuantidadeComercializada, na.rm = TRUE)
+      ,"ValorRecolhido" = sum(ValorRecolhido, na.rm = TRUE)
+      ,"P_mediano" = median(P, na.rm = TRUE, trim = 0.01) |>  round(digits = 2)
+      ,"P_medPond" = ValorRecolhido/QuantidadeComercializada |> round(digits = 2)
+      ,"Pmed/Ppond" = P_mediano/P_medPond
+      ,"N" = length(P)
+     )
+
+  P0 <- df[df$Trimestre == min(df$Trimestre),]$P_medPond 
+  Q0 <- df[df$Trimestre == min(df$Trimestre),]$QuantidadeComercializada
+
+lista <- NA
+for (n in 1:length(unique(df$Trimestre))) {
+  for (s in unique(df$Substância)) {
     
-CFEM[CFEM == Inf] <- NA
+      Qn <- df[df$Trimestre == n &
+                 df$Substância == s,]$QuantidadeComercializada
 
-# CFEM <- na.omit(CFEM)
+  P0*Qn/P0*Q0
+   
+P0_Q0 <- P0 * Q0 
+    
+  }
+}
+
+P1 <-   df[df$Trimestre == min(df$Trimestre),]$P_medPond 
+Q1 <-   df[df$Trimestre == min(df$Trimestre),]$QuantidadeComercializada
+
+ 
+# idx_Paasche ---------------------------------------------------------------------- 
+idx_Paasche <- 
+  quantityIndex(
+           prices = 'P_medPond'
+          ,quantities = 'QuantidadeComercializada'
+          ,base = TRUE
+          ,data = df
+          ,method = "Paasche")*100
+
+P0_Q0 <- 
+
+ 
+ 
+# idx_Laspeyres ---------------------------------------------------------------------- 
+idx_Laspeyres <- 
+  quantityIndex(
+           prices = 'P_medPond'
+          ,quantities = 'QuantidadeComercializada'
+          ,base = TRUE
+          ,data = df
+          ,method = "Laspeyres")*100
+
+idx_Fisher <- 
+  quantityIndex(
+           prices = 'P_medPond'
+          ,quantities = 'QuantidadeComercializada'
+          ,base = TRUE
+          ,data = df
+          ,method = "Fisher")*100
+ 
+ DF <- 
+   cbind(idx_Fisher, idx_Laspeyres, idx_Paasche)
+
+ 
+DT::datatable(DF,rownames = FALSE)
+ 
+
+```
 
 
-matriz_substancia_Trimestre <-
-  # na.omit(
-    summarise(
-      group_by(CFEM, Substância, Trimestre),
-      "QuantidadeComercializada" = sum(QuantidadeComercializada, na.rm = TRUE),
-      "ValorRecolhido" = sum(ValorRecolhido, na.rm = TRUE), 
-      "P_medio" = median(P, na.rm = TRUE, trim = 0.01))
-# )
+
+
+
+
+
+
+
+
+
+
+
+```{r eval=FALSE, include=FALSE}
 
 # Vetor de valores unitários-Trimestre
- matriz_substancia_Trimestre$valor_medio_Trimestre <-
-   matriz_substancia_Trimestre$ValorRecolhido / matriz_substancia_Trimestre$QuantidadeComercializada
 
+t0 <- min(df$Trimestre)
+P0 <- df[df$Trimestre == t_0,]$P_medPond
+Q0 <- df[df$Trimestre == t_0,]$QuantidadeComercializada
+Q1 <- df$QuantidadeComercializada
+
+
+  
+  
+  P_medPond * df$QuantidadeComercializada
+
+
+
+  matriz_substancia_Trimestre |> 
+    group_by() |> 
+  summarise(
+    "P0_Q0" = sum(P_medPond * QuantidadeComercializada)
+            )
 
 
 trim <- sort(unique(matriz_substancia_Trimestre$Trimestre))
@@ -227,186 +327,7 @@ Laspeyres <-
 Paasche <- 
   do.call("sum", P1.Q1) / 
   do.call("sum", P1.Q0)
-
 ```
-
-
-```{r carregamento AMB, include=FALSE}
-
-source('D:/Users/humberto.serna/Documents/D_Lake/Dados_Abertos_ANM/AMB_Dados_Abertos.R')
-
-
-```
-
-
-### AMB Produção Bruta
-
-```{r index numbers AMB producao_bruta, include=FALSE}
-
-producao_bruta$P <- NA
-# Vetor de valores unitários
-for (i in 1:nrow(producao_bruta)) {
-  if (is.infinite(producao_bruta$ValorRecolhido[i] / producao_bruta$QuantidadeComercializada[i]) == FALSE) {
-    producao_bruta$P[i] <-
-      producao_bruta$ValorRecolhido[i] / producao_bruta$QuantidadeComercializada[i]
-  }
-}
-
-producao_bruta <- 
-  na.omit(producao_bruta)
-
-matriz_substancia_Trimestre <-
-  na.omit(
-    summarise(
-      group_by(producao_bruta, Substância, Trimestre),
-      "QuantidadeComercializada" = sum(QuantidadeComercializada, na.rm = TRUE),
-      "ValorRecolhido" = sum(ValorRecolhido, na.rm = TRUE), 
-      "P_medio" = mean(P, na.rm = TRUE, trim = 0.01)))
-
-# Vetor de valores unitários-Trimestre
-matriz_substancia_Trimestre$valor_medio_Trimestre <-
-  matriz_substancia_Trimestre$ValorRecolhido / matriz_substancia_Trimestre$QuantidadeComercializada
-
-
-producao_bruta$Trimestre <- 
-  Trimestre(producao_bruta$mes.de.referencia)
-
-
-P0.Q0 <- list()
-P1.Q0 <- list()
-P0.Q1 <- list()
-P1.Q1 <- list()
-trim <- sort(unique(matriz_substancia_Trimestre$Trimestre))
-n <- 1
-for (i in unique(producao_bruta$Substância)) {
-  for (t in 2:length(trim)) {
-    P1.Q1[n] <-
-      matriz_substancia_Trimestre[matriz_substancia_Trimestre$Substância == i &
-                                    matriz_substancia_Trimestre$Trimestre == trim[t],]$P_medio *
-      matriz_substancia_Trimestre[matriz_substancia_Trimestre$Substância == i &
-                                    matriz_substancia_Trimestre$Trimestre == trim[t],]$QuantidadeComercializada
-    
-    
-    P1.Q0[n] <-
-      matriz_substancia_Trimestre[matriz_substancia_Trimestre$Substância == i &
-                                    matriz_substancia_Trimestre$Trimestre == trim[t],]$P_medio *
-      matriz_substancia_Trimestre[matriz_substancia_Trimestre$Substância == i &
-                                    matriz_substancia_Trimestre$Trimestre == trim[t - 1],]$QuantidadeComercializada
-    
-     P0.Q1[n] <-
-      matriz_substancia_Trimestre[matriz_substancia_Trimestre$Substância == i &
-                                    matriz_substancia_Trimestre$Trimestre == trim[t - 1],]$P_medio *
-      matriz_substancia_Trimestre[matriz_substancia_Trimestre$Substância == i &
-                                    matriz_substancia_Trimestre$Trimestre == trim[t],]$QuantidadeComercializada
-    
-    
-    P0.Q0[n] <-
-      matriz_substancia_Trimestre[matriz_substancia_Trimestre$Substância == i &
-                                    matriz_substancia_Trimestre$Trimestre == trim[t - 1],]$P_medio *
-      matriz_substancia_Trimestre[matriz_substancia_Trimestre$Substância == i &
-                                    matriz_substancia_Trimestre$Trimestre == trim[t - 1],]$QuantidadeComercializada
-    
-    n <- n + 1
-    
-  }
-}
-
-
-Laspeyres <- 
-  do.call("sum", P0.Q1) / 
-  do.call("sum", P0.Q0)
-
-Paasche <- 
-  do.call("sum", P1.Q1) / 
-  do.call("sum", P1.Q0)
-
-```
-
-
-### AMB Produção Beneficiada
-
-```{r index numbers AMB producao_beneficiada, include=FALSE}
-
-producao_beneficiada$P <- NA
-# Vetor de valores unitários
-for (i in 1:nrow(producao_beneficiada)) {
-  if (is.infinite(producao_beneficiada$ValorRecolhido[i] / producao_beneficiada$QuantidadeComercializada[i]) == FALSE) {
-    producao_beneficiada$P[i] <-
-      producao_beneficiada$ValorRecolhido[i] / producao_beneficiada$QuantidadeComercializada[i]
-  }
-}
-
-producao_beneficiada <- 
-  na.omit(producao_beneficiada)
-
-matriz_substancia_Trimestre <-
-  na.omit(
-    summarise(
-      group_by(producao_beneficiada, Substância, Trimestre),
-      "QuantidadeComercializada" = sum(QuantidadeComercializada, na.rm = TRUE),
-      "ValorRecolhido" = sum(ValorRecolhido, na.rm = TRUE), 
-      "P_medio" = mean(P, na.rm = TRUE, trim = 0.01)))
-
-# Vetor de valores unitários-Trimestre
-matriz_substancia_Trimestre$valor_medio_Trimestre <-
-  matriz_substancia_Trimestre$ValorRecolhido / matriz_substancia_Trimestre$QuantidadeComercializada
-
-
-producao_beneficiada$Trimestre <- 
-  Trimestre(producao_beneficiada$mes.de.referencia)
-
-
-P0.Q0 <- list()
-P1.Q0 <- list()
-P0.Q1 <- list()
-P1.Q1 <- list()
-trim <- sort(unique(matriz_substancia_Trimestre$Trimestre))
-n <- 1
-for (i in unique(producao_beneficiada$Substância)) {
-  for (t in 2:length(trim)) {
-    P1.Q1[n] <-
-      matriz_substancia_Trimestre[matriz_substancia_Trimestre$Substância == i &
-                                    matriz_substancia_Trimestre$Trimestre == trim[t],]$P_medio *
-      matriz_substancia_Trimestre[matriz_substancia_Trimestre$Substância == i &
-                                    matriz_substancia_Trimestre$Trimestre == trim[t],]$QuantidadeComercializada
-    
-    
-    P1.Q0[n] <-
-      matriz_substancia_Trimestre[matriz_substancia_Trimestre$Substância == i &
-                                    matriz_substancia_Trimestre$Trimestre == trim[t],]$P_medio *
-      matriz_substancia_Trimestre[matriz_substancia_Trimestre$Substância == i &
-                                    matriz_substancia_Trimestre$Trimestre == trim[t - 1],]$QuantidadeComercializada
-    
-     P0.Q1[n] <-
-      matriz_substancia_Trimestre[matriz_substancia_Trimestre$Substância == i &
-                                    matriz_substancia_Trimestre$Trimestre == trim[t - 1],]$P_medio *
-      matriz_substancia_Trimestre[matriz_substancia_Trimestre$Substância == i &
-                                    matriz_substancia_Trimestre$Trimestre == trim[t],]$QuantidadeComercializada
-    
-    
-    P0.Q0[n] <-
-      matriz_substancia_Trimestre[matriz_substancia_Trimestre$Substância == i &
-                                    matriz_substancia_Trimestre$Trimestre == trim[t - 1],]$P_medio *
-      matriz_substancia_Trimestre[matriz_substancia_Trimestre$Substância == i &
-                                    matriz_substancia_Trimestre$Trimestre == trim[t - 1],]$QuantidadeComercializada
-    
-    n <- n + 1
-    
-  }
-}
-
-
-Laspeyres <- 
-  do.call("sum", P0.Q1) / 
-  do.call("sum", P0.Q0)
-
-Paasche <- 
-  do.call("sum", P1.Q1) / 
-  do.call("sum", P1.Q0)
-
-```
-
-
 
 
 
