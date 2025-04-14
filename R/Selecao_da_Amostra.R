@@ -3,9 +3,17 @@ library(lubridate)
 library(DescTools)
 
 source("./R/CARREGAMENTO.R")
-CFEM <- 
-  CFEM[CFEM$Substância %in% 
-         c("ALUMÍNIO", "COBRE", "ZINCO", "CHUMBO", "NÍQUEL", "ESTANHO", "FERRO"),]
+CFEM <-
+  CFEM[CFEM$Substância %in%
+         c(
+           # "ALUMÍNIO",
+           # "COBRE",
+           # "ZINCO",
+           # "CHUMBO",
+           # "NÍQUEL",
+           # "ESTANHO",
+           "FERRO"
+           ), ]
 
 
 CFEM$id <- 
