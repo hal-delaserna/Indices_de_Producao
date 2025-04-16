@@ -1,9 +1,9 @@
 library(tidyverse)
 library(lubridate)
-library(DescTools)
+# library(DescTools)
 
 source("./R/CARREGAMENTO.R")
-CFEM <-
+df <-
   CFEM[CFEM$Substância %in%
          c(
            # "ALUMÍNIO",
@@ -13,83 +13,45 @@ CFEM <-
            # "NÍQUEL",
            # "ESTANHO",
            "FERRO"
-           ), ]
+         ), ]
 
 
-CFEM$id <- 
-  paste0("id",CFEM$CPF_CNPJ,CFEM$Substância) |> gsub(replacement = "", pattern = " ")
+df$id <- 
+  paste0("id",df$CPF_CNPJ,df$Substância) |> gsub(replacement = "", pattern = " ")
 
-CFEM$data <- 
-  lubridate::my(paste(CFEM$Mês, CFEM$Ano, sep = "/"))
+df$data <- 
+  lubridate::my(paste(df$Mês, df$Ano, sep = "/"))
 
-CFEM$r <- CFEM$ValorRecolhido/CFEM$QuantidadeComercializada
-
-#Quantos meses cada par CNPJ-Substância aparece
-df <- 
-  CFEM |> 
-  group_by(id) |>
-  summarise("N_meses" = n())
-
-# CNPJ-Substância que declararam 30 ou mais meses
-dfA <- df[df$N_meses >= 30,]$id |> unique()
-  
-dfA <-   
-  CFEM[CFEM$id %in% dfA,]
-
-# Cálculo da média e desvio padrão por substância e unidade de medida
-estatisticas_substancia <- 
-  dfA %>% 
-  group_by(Substância, UnidadeDeMedida, data) %>% 
-  summarize(
-    'median_r' = median(r, na.rm = TRUE) |> round(2),
-    'sd_r' = sd(r, na.rm = TRUE) |> round(2),
-    "N" = n(),
-    'median_Q' = median(QuantidadeComercializada, na.rm = TRUE) |> round(2),
-    'sd_Q' = sd(QuantidadeComercializada, na.rm = TRUE) |> round(2),
-    'median_V' = median(ValorRecolhido, na.rm = TRUE) |> round(2),
-    'sd_V' = sd(ValorRecolhido, na.rm = TRUE) |> round(2),
-    .groups = 'drop'
-  )
-
-# Substâncias que 
-
-estatisticas_substancia_II <- estatisticas_substancia[estatisticas_substancia$N > 30,]
-
-estatisticas_substancia_II$Substância |> table() |> as.data.frame() |> arrange(desc(Freq)) 
+df$r <- df$ValorRecolhido/df$QuantidadeComercializada
 
 
-
-# Identificação de bons declarantes com consistência temporal
-bons_declarantes <- 
-  dfA %>% 
-  group_by(Processo, CPF_CNPJ, Substância) %>% 
-  summarize(
-    meses_declarados = n_distinct(data),
-    media_quantidade = median(r, na.rm = TRUE) |> round(2),
-    desvio_padrao = sd(r, na.rm = TRUE) |> round(2),
-    correlacao = cor(QuantidadeComercializada, ValorRecolhido, use = 'complete.obs'),
-    .groups = 'drop'
-  ) 
-
-bons_declarantes <- 
-  bons_declarantes$
+# TRANSFORMAR KG EM TON. HARMONIZAR UNIDADES DENTRO DE UMA SUBSTÂNCIA
 
 
+# Inicializar coluna de confiabilidade
+df$confiabilidade <- NA
 
-%>% 
-  filter(anos_declarados > 1, !is.na(correlacao), correlacao > 0.5)
+# Aplicar análise IQR por grupo de Substância × Trimestre
+for (s in unique(df$Substância)) {
+  for (t in unique(df$Trimestre)) {
+    idx <- which(df$Substância == s & df$Trimestre == t & is.finite(df$r))
+    if (length(idx) >= 5) {  # Mínimo para cálculo confiável de quartis
+      x <- df$r[idx]
+      q1 <- quantile(x, 0.25, na.rm = TRUE)
+      q3 <- quantile(x, 0.75, na.rm = TRUE)
+      iqr <- q3 - q1
+      lim_inf <- q1 - 1.5 * iqr
+      lim_sup <- q3 + 1.5 * iqr
+      df$confiabilidade[idx] <- ifelse(x < lim_inf | x > lim_sup, "Baixa", "Alta")
+    } else {
+      df$confiabilidade[idx] <- "Indefinida"
+    }
+  }
+}
 
-# Mesclar com estatísticas gerais por substância
-resultado <- 
-  bons_declarantes %>% 
-  left_join(estatisticas_substancia, by = 'Substância') %>% 
-  filter(
-    media_quantidade > 0, 
-    desvio_padrao <= 2 * media_quantidade # Filtrar por desvio padrão razoável
-  )
+# Verificar resumo
+table(df$confiabilidade)
 
-# Visualizar resultado
-print(head(resultado))
+# (Opcional) Salvar resultado
+# write.csv(df, "com_confiabilidade.csv", row.names = FALSE)
 
-# Salvar resultado em um arquivo CSV
-write.csv(resultado, 'bons_declarantes.csv', row.names = FALSE)

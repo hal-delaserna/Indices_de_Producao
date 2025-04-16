@@ -48,6 +48,10 @@ num_cols <- c(1, 2, 11, 13)
 df[, (num_cols) := lapply(.SD, function(x)
   as.numeric(gsub(",", ".", x))), .SDcols = num_cols]
 
+# Royalty por unidade
+df$r <- df$ValorRecolhido/df$QuantidadeComercializada
+
+
 df$Substância <- 
   ifelse(grepl(df$Substância, pattern = "AREIA") == TRUE & 
          !grepl(df$Substância, pattern = "INDUSTRIAL|VIDRO|FUNDIÇÃO") == TRUE,
