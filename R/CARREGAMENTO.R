@@ -12,6 +12,13 @@ CFEM$Processo <-
 CFEM <- CFEM[,-4]
 
 
+# Removendo espaços
+CFEM[] <- lapply(CFEM, function(x) {
+  if (is.character(x)) str_squish(x) else x
+})
+
+
+
 # TRimestre 
 trimestre <- 
   ceiling(as.numeric(CFEM$Mês) / 3)
