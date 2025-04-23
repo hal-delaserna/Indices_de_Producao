@@ -1,170 +1,171 @@
-**Abstract**
+**Abstract**  
 
-Este trabalho propõe o **Índice Aberto de Quantum Mineral (IAQM)**, uma iniciativa que constrói um índice econômico aberto para acompanhar o desempenho, em termos reais, da produção mineral brasileira. Fundamentado na metodologia dos índices de quantum, o IAQM isola as variações no volume físico produzido das flutuações inflacionárias ao adotar preços constantes. Utiliza dados abertos dos royalties da mineração, disponíveis portais de tranparência pública. O índice é implementado em uma plataforma open source, garantindo reprodutibilidade e controle pela sociedade civil. O IAQM contribui para fortalecer a governança pública, empoderar o controle social e fomentar análises técnicas rigorosas sobre tendências produtivas reais no setor mineral brasileiro.
-palavras chave: Civic Tech / Dados Livres; Open Science; Open Government Data (OGD)
+Este trabalho propõe o **Índice Aberto de Quantum Mineral (IAQM)**, uma iniciativa que constrói um índice econômico aberto para acompanhar o desempenho, em termos reais, da produção mineral brasileira. Fundamentado na metodologia dos índices de quantum, o IAQM isola as variações no volume físico produzido das flutuações inflacionárias ao adotar preços constantes. Utiliza dados abertos dos royalties da mineração, disponíveis portais de tranparência pública. O índice é implementado em uma plataforma open source, garantindo reprodutibilidade e controle pela sociedade civil. O IAQM contribui para fortalecer a governança pública, empoderar o controle social e fomentar análises técnicas rigorosas sobre tendências produtivas reais no setor mineral brasileiro.  
+palavras chave: Civic Tech / Dados Livres; Open Science; Open Government Data (OGD)  
 
-## ESTRUTURA
+## ESTRUTURA  
 
-+ 1. Introdução
-1.1 Revisão da literatura e apresentação de conceitos
++ 1. Introdução    
 
+1.1 Revisão da literatura e apresentação de conceitos      
 
-Conceituação; serventia; propriedades/qualidades
 
-Números índices são medidas estatísticas de síntese de fenômenos, sociais ou naturais, que associam uma grandeza numérica à um conjunto de observações do fenômeno em estudo.
+Conceituação; serventia; propriedades/qualidades       
 
-Números-índices são grandezas adimensionais, próprias para serem comparadas com elas mesmos, proporcionando a avaliação de um dado estado do fenômeno no tempo: sua variação, em intensidade e direção (crescimento/descrescimento).
+Números índices são medidas estatísticas de síntese de fenômenos, sociais ou naturais, que associam uma grandeza numérica à um conjunto de observações do fenômeno em estudo.     
 
-A aplicação mais célebre dentre o grande público é seu uso como medida da inflação de preços. E de fato, dentre os primeiros números índices surgidos, como os índice criado por Etiénne de Laspeyres e ou o índice de Hermann Paasche, foram concebidos com tal propósito, o de medir a evolução do custo de vida.
+Números-índices são grandezas adimensionais, próprias para serem comparadas com elas mesmos, proporcionando a avaliação de um dado estado do fenômeno no tempo: sua variação, em intensidade e direção (crescimento/descrescimento).     
 
-Em seu trabalho seminal Laspeyres utilizou uma cesta de bens representativa do consumo das famílias para comparar preços ao longo do tempo, mantendo as quantidades constantes (baseadas no período inicial). Esse método permitia avaliar quanto o custo para adquirir a mesma quantidade de bens havia aumentado ou diminuído — ou seja, ele estava preocupado com o poder de compra e o impacto da inflação no bem-estar econômico. LASPEYRES (1871).
+A aplicação mais célebre dentre o grande público é seu uso como medida da inflação de preços. E de fato, dentre os primeiros números índices surgidos, como os índice criado por Etiénne de Laspeyres e ou o índice de Hermann Paasche, foram concebidos com tal propósito, o de medir a evolução do custo de vida.    
 
+Em seu trabalho seminal Laspeyres utilizou uma cesta de bens representativa do consumo das famílias para comparar preços ao longo do tempo, mantendo as quantidades constantes (baseadas no período inicial). Esse método permitia avaliar quanto o custo para adquirir a mesma quantidade de bens havia aumentado ou diminuído — ou seja, ele estava preocupado com o poder de compra e o impacto da inflação no bem-estar econômico. LASPEYRES (1871).     
 
-$$[LASPEYRES]$$
 
-Poucos anos depois, outro estatístico, Hermann Paasche, propôs uma alteração na formulação de Laspeyres. Argumentava que para preservar como representativa a cesta de bens, ela deveria mudar a cada período considerado. Assim, sua alternativa foir manter os preços constantes do período base, mas utilizar as quantidades do período corrente para ponderação. Em outras palavras, enquanto Laspeyres fixa as quantidades do passado, Paasche atualiza os pesos com base na realidade mais recente, procurando refletir com maior aderência o comportamento efetivo do consumidor ou do produtor no presente.
+$$[LASPEYRES]$$     
 
+Poucos anos depois, outro estatístico, Hermann Paasche, propôs uma alteração na formulação de Laspeyres. Argumentava que para preservar como representativa a cesta de bens, ela deveria mudar a cada período considerado. Assim, sua alternativa foir manter os preços constantes do período base, mas utilizar as quantidades do período corrente para ponderação. Em outras palavras, enquanto Laspeyres fixa as quantidades do passado, Paasche atualiza os pesos com base na realidade mais recente, procurando refletir com maior aderência o comportamento efetivo do consumidor ou do produtor no presente.    
 
-$$[PAASCHE]$$
 
+$$[PAASCHE]$$     
 
-Embora os números índices tenham surgido sob o contexto de medir a inflação de preços eles também se prestam a serem índices de quantidade (*quantum*). Os números-índices de quantum prestam-se a mensurar variações no volume físico de produção ou consumo ao longo do tempo, isolando os efeitos de mudanças nominais nos preços. 
 
-Essa metodologia é amplamente empregada em análises macroeconômicas, como na construção de indicadores de produção industrial, Produto Interno Bruto (PIB) real, e no acompanhamento de setores específicos da economia. Ao eliminar o efeito da inflação ou de variações nominais de preços, os índices de quantum permitem uma avaliação mais precisa do crescimento real da atividade econômica, sendo essenciais para formulação de políticas públicas, estudos setoriais e planejamento estratégico.
+Embora os números índices tenham surgido sob o contexto de medir a inflação de preços eles também se prestam a serem índices de quantidade (*quantum*). Os números-índices de quantum prestam-se a mensurar variações no volume físico de produção ou consumo ao longo do tempo, isolando os efeitos de mudanças nominais nos preços.     
 
-Existem diversas fórmulas para a construção de índices de quantum, derivadas das abordagens propostas por Laspeyres, Paasche e Fisher. A escolha da metodologia adequada depende do objetivo da análise, da disponibilidade de dados e das propriedades desejadas no índice, como facilidade de cálculo, atualização e representatividade estatística.
+Essa metodologia é amplamente empregada em análises macroeconômicas, como na construção de indicadores de produção industrial, Produto Interno Bruto (PIB) real, e no acompanhamento de setores específicos da economia. Ao eliminar o efeito da inflação ou de variações nominais de preços, os índices de quantum permitem uma avaliação mais precisa do crescimento real da atividade econômica, sendo essenciais para formulação de políticas públicas, estudos setoriais e planejamento estratégico.    
 
-No contexto da produção mineral, a aplicação de um índice de quantum revela-se particularmente pertinente. O setor mineral é caracterizado por elevada volatilidade de preços no mercado internacional, o que pode distorcer análises baseadas em valores nominais. A construção de um índice que reflita apenas as variações físicas da produção contribui para diagnósticos mais precisos sobre o desempenho real do setor.
+Existem diversas fórmulas para a construção de índices de quantum, derivadas das abordagens propostas por Laspeyres, Paasche e Fisher. A escolha da metodologia adequada depende do objetivo da análise, da disponibilidade de dados e das propriedades desejadas no índice, como facilidade de cálculo, atualização e representatividade estatística.    
 
-É nesse cenário que se insere o Índice Aberto de Quantum Mineral (IAQM), proposto neste trabalho. O IAQM adota a lógica dos números-índices de quantum para acompanhar, de forma transparente e reprodutível, a evolução da produção mineral brasileira, desconsiderando flutuações de preços e focando exclusivamente no volume físico produzido.
+No contexto da produção mineral, a aplicação de um índice de quantum revela-se particularmente pertinente. O setor mineral é caracterizado por elevada volatilidade de preços no mercado internacional, o que pode distorcer análises baseadas em valores nominais. A construção de um índice que reflita apenas as variações físicas da produção contribui para diagnósticos mais precisos sobre o desempenho real do setor.    
 
-A formulação do IAQM será orientada por critérios metodológicos sólidos, considerando as propriedades essenciais que garantem a robustez de um número-índice, como consistência temporal, reversibilidade e invariância à unidade de medida. Essas características serão detalhadas na próxima seção, dedicada à discussão das Propriedades dos Números-Índices, onde se apresentarão os fundamentos teóricos que norteiam a construção de índices econômicos confiáveis e tecnicamente adequados.
+É nesse cenário que se insere o Índice Aberto de Quantum Mineral (IAQM), proposto neste trabalho. O IAQM adota a lógica dos números-índices de quantum para acompanhar, de forma transparente e reprodutível, a evolução da produção mineral brasileira, desconsiderando flutuações de preços e focando exclusivamente no volume físico produzido.    
 
+A formulação do IAQM será orientada por critérios metodológicos sólidos, considerando as propriedades essenciais que garantem a robustez de um número-índice, como consistência temporal, reversibilidade e invariância à unidade de medida. Essas características serão detalhadas na próxima seção, dedicada à discussão das Propriedades dos Números-Índices, onde se apresentarão os fundamentos teóricos que norteiam a construção de índices econômicos confiáveis e tecnicamente adequados.    
 
 
 
-O objetivo teórico mais geral dos índices de produção industrial é o de refletir a
-evolução do valor adicionado ao longo do tempo. O valor adicionado mensurado pela
-quantidade de bens e serviços produzidos (seja por estabelecimento, unidade local,
-indústria etc.) que excede os insumos intermediários consumidos. Este pode ser medido
-a preços correntes ou em termos de volume6. (IBGE, 2023, Notas Metô)
 
-Índices de quantidades informam variações na produção física ao longo do tempo, tanto em termos de direção (alta ou baixa) quanto de intensidade (percentual de variação). O valor absoluto do índice, por si só, é adimensional e representa apenas a razão entre o período corrente e um período-base arbitrário. Assim, o índice é mais útil como medida de comparação temporal, e não como medida autônoma.
+O objetivo teórico mais geral dos índices de produção industrial é o de refletir a  
+evolução do valor adicionado ao longo do tempo. O valor adicionado mensurado pela  
+quantidade de bens e serviços produzidos (seja por estabelecimento, unidade local,  
+indústria etc.) que excede os insumos intermediários consumidos. Este pode ser medido  
+a preços correntes ou em termos de volume6. (IBGE, 2023, Notas Metô)    
 
+Índices de quantidades informam variações na produção física ao longo do tempo, tanto em termos de direção (alta ou baixa) quanto de intensidade (percentual de variação). O valor absoluto do índice, por si só, é adimensional e representa apenas a razão entre o período corrente e um período-base arbitrário. Assim, o índice é mais útil como medida de comparação temporal, e não como medida autônoma.    
 
-O IBGE também tem um índice de produção, um produto da PIM-PF. Mas o *índice de produção - industrias extrativas* abarca o setores de Petróleo & Gás (CNAE 0600-0/01), entre outros*
 
-+ 2. Objetivo
+O IBGE também tem um índice de produção, um produto da PIM-PF. Mas o *índice de produção - industrias extrativas* abarca o setores de Petróleo & Gás (CNAE 0600-0/01), entre outros*    
 
-“Meu objetivo é construir um índice de quantum da produção mineral brasileira, totalmente open source e baseado em dados de portais de transparência públicos. A iniciativa privilegia reprodutibilidade, transparência, empoderamento cívico e controle social.”
++ 2. Objetivo    
 
+“Meu objetivo é construir um índice de quantum da produção mineral brasileira, totalmente open source e baseado em dados de portais de transparência públicos. A iniciativa privilegia reprodutibilidade, transparência, empoderamento cívico e controle social.”  
 
-+ 3. Material e Método
-3.1 Outliers
-3.2 Amostragem
-3.3 cálculo dos índices (Fisher)
 
-+ 4. Resultados e Discussão
++ 3. Material e Método    
+3.1 Outliers    
+3.2 Amostragem    
+3.3 cálculo dos índices (Fisher)    
 
++ 4. Resultados e Discussão     
 
 
 
 
-+ Bibliografia
 
-Laspeyres, E. (1871). "Die Berechnung einer mittleren Warenpreissteigerung" (O cálculo de um aumento médio dos preços das mercadorias).
++ Bibliografia    
 
+Laspeyres, E. (1871). "Die Berechnung einer mittleren Warenpreissteigerung" (O cálculo de um aumento médio dos preços das mercadorias).    
 
 
---------------------------------------------------------------------------
-## 1. Limpeza da base
 
+--------------------------------------------------------------------------  
+## 1. Limpeza da base  
 
-**1.1 Identificar outliers**
 
-+ Detecção de outliers
-   + Estratificar por substância e mês
-   + IQR
-   + MAD
+**1.1 Identificar outliers**  
 
++ Detecção de outliers  
+   + Estratificar por substância e mês  
+   + IQR  
+   + MAD  
 
-+ Usar 2 critérios baseados nos tamanhos do estrato:
-   + Para substâncias com N > 30: usar MAD por substância e trimestre
-   + Se N < 30: log-retornos
-      + Limiar p/ log‑retornos: Uma prática simples é supor variação log‑normal no preço unitário intra‑trimestre; que tende a se aproximar de Normal.
 
-**1.2 Identificar bons declarantes**
++ Usar 2 critérios baseados nos tamanhos do estrato:  
+   + Para substâncias com N > 30: usar MAD por substância e trimestre  
+   + Se N < 30: log-retornos  
+      + Limiar p/ log‑retornos: Uma prática simples é supor variação log‑normal no preço unitário intra‑trimestre; que tende a se aproximar de Normal.  
 
+**1.2 Identificar bons declarantes**  
 
 
 
 
-## 2. Amostragem
 
-+ **amostra aleatória estratificada** 
+## 2. Amostragem  
 
++ **amostra aleatória estratificada**   
 
 
-+ **Amostra longitudinal estratificada** 
 
++ **Amostra longitudinal estratificada**   
 
 
 
 
 
-**Aleatória simples ou sistemática:** sistemática, coletando boas declarações
 
-Princípios de Amostragem que Devem Ser Seguidos
-**(A) Representatividade:** refletir a estrutura do setor 
+**Aleatória simples ou sistemática:** sistemática, coletando boas declarações  
 
-**(B) Consistência ao Longo do Tempo (Longitudinalidade):**
-+ Amostra longitudinal: inclui sempre os mesmos indivíduos
+Princípios de Amostragem que Devem Ser Seguidos  
+**(A) Representatividade:** refletir a estrutura do setor   
 
+**(B) Consistência ao Longo do Tempo (Longitudinalidade):**  
++ Amostra longitudinal: inclui sempre os mesmos indivíduos  
 
-**(D) Estratificação (Opcional)**
 
-+ Identificar segmentos (porte, região, substância). Represente-os na amostra. 
-	+ mutuamente exclusivos (não sobrepostos) 
-	+ coletivamente exaustivos (cobrir todo o universo).
+**(D) Estratificação (Opcional)**  
 
-+ Amostragem Desproporcional (ou Sobre-amostragem):
-Quando os extratos participam da amostra em proporção diversa a que participam na população. 	
++ Identificar segmentos (porte, região, substância). Represente-os na amostra.   
+	+ mutuamente exclusivos (não sobrepostos)   
+	+ coletivamente exaustivos (cobrir todo o universo).  
 
-+ Aplicar fatores de expansão para ajustar a contribuição de cada estrato.
++ Amostragem Desproporcional (ou Sobre-amostragem):  
+Quando os extratos participam da amostra em proporção diversa a que participam na população. 	  
 
++ Aplicar fatores de expansão para ajustar a contribuição de cada estrato.  
 
 
 
-### Base fixa ou Encadeado?
 
-**Encadeado**: incorpora mudanças nos preços relativos (tecnologia/produtividade/obsolescência; preferências)  
-Base Fixa: medir variação ao longo do tempo em relação a um ponto fixo  
+### Base fixa ou Encadeado?  
 
+**Encadeado**: incorpora mudanças nos preços relativos (tecnologia/produtividade/obsolescência; preferências)    
+Base Fixa: medir variação ao longo do tempo em relação a um ponto fixo    
 
 
 
-1. **Metais Ferrosos**  
-   - Principais minérios: ferro (hematita, magnetita), manganês (pirolusita), cromo (crocoíta), níquel (pentlandita) etc.  
-   - Característica fundamental: contêm ferro em quantidade significativa ou se relacionam diretamente à produção de aço e ligas ferrosas.
 
-2. **Metais Não-Ferrosos**  
-   - Principais minérios: cobre (calcopirita), alumínio (bauxita), chumbo (galena), zinco (esfalerita), estanho (cassiterita) etc.  
-   - São metais que não contêm ferro como elemento principal e geralmente apresentam características como alta condutividade elétrica e resistência à corrosão (dependendo do metal específico).
+1. **Metais Ferrosos**    
+   - Principais minérios: ferro (hematita, magnetita), manganês (pirolusita), cromo (crocoíta), níquel (pentlandita) etc.    
+   - Característica fundamental: contêm ferro em quantidade significativa ou se relacionam diretamente à produção de aço e ligas ferrosas.  
 
-3. **Metais Preciosos e/ou Nobres**  
-   - Principais minérios: ouro (nativo, eletro), prata (argentita), platina (minerais do grupo da platina), paládio etc.  
+2. **Metais Não-Ferrosos**    
+   - Principais minérios: cobre (calcopirita), alumínio (bauxita), chumbo (galena), zinco (esfalerita), estanho (cassiterita) etc.    
+   - São metais que não contêm ferro como elemento principal e geralmente apresentam características como alta condutividade elétrica e resistência à corrosão (dependendo do metal específico).  
 
-4. **Agregados de Construção (Materiais de Construção)**  
-   - Principais materiais: areia, brita, cascalho, rochas para brita (granito, basalto), rochas ornamentais (mármore, granito), argila (para cerâmica vermelha).  
-   - Empregados em grandes quantidades na construção civil (estruturas, pavimentação e acabamento).
+3. **Metais Preciosos e/ou Nobres**    
+   - Principais minérios: ouro (nativo, eletro), prata (argentita), platina (minerais do grupo da platina), paládio etc.    
 
-5. **Minerais Industriais e Não-Metálicos**  
-   - Incluem: calcário (para cimento e cal), gesso, argilas especiais (caulim, bentonita), fluorita, fosfatos, quartzo (sílica), barita, talco, magnesita etc.  
-   - Têm amplo uso na indústria química, cerâmica, siderúrgica (fundentes), alimentação animal, fertilizantes, papel, vidro, entre outros.
+4. **Agregados de Construção (Materiais de Construção)**    
+   - Principais materiais: areia, brita, cascalho, rochas para brita (granito, basalto), rochas ornamentais (mármore, granito), argila (para cerâmica vermelha).    
+   - Empregados em grandes quantidades na construção civil (estruturas, pavimentação e acabamento).  
 
-6. **Minerais Energéticos**  
-   - Principais: carvão mineral, urânio, tório (minerais radioativos).  
+5. **Minerais Industriais e Não-Metálicos**    
+   - Incluem: calcário (para cimento e cal), gesso, argilas especiais (caulim, bentonita), fluorita, fosfatos, quartzo (sílica), barita, talco, magnesita etc.    
+   - Têm amplo uso na indústria química, cerâmica, siderúrgica (fundentes), alimentação animal, fertilizantes, papel, vidro, entre outros.  
 
-7. **Terras-Raras**  
+6. **Minerais Energéticos**    
+   - Principais: carvão mineral, urânio, tório (minerais radioativos).    
 
-8. **Pedras Preciosas (Gemas)**  
+7. **Terras-Raras**    
+
+8. **Pedras Preciosas (Gemas)**    
