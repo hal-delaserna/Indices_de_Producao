@@ -1,5 +1,4 @@
 **Abstract**
-13/21/43
 
 Este trabalho propõe o **Índice Aberto de Quantum Mineral (IAQM)**, uma iniciativa que constrói um índice econômico aberto para acompanhar o desempenho, em termos reais, da produção mineral brasileira. Fundamentado na metodologia dos índices de quantum, o IAQM isola as variações no volume físico produzido das flutuações inflacionárias ao adotar preços constantes. Utiliza dados abertos dos royalties da mineração, disponíveis portais de tranparência pública. O índice é implementado em uma plataforma open source, garantindo reprodutibilidade e controle pela sociedade civil. O IAQM contribui para fortalecer a governança pública, empoderar o controle social e fomentar análises técnicas rigorosas sobre tendências produtivas reais no setor mineral brasileiro.
 palavras chave: Civic Tech / Dados Livres; Open Science; Open Government Data (OGD)
@@ -9,7 +8,39 @@ palavras chave: Civic Tech / Dados Livres; Open Science; Open Government Data (O
 + 1. Introdução
 1.1 Revisão da literatura e apresentação de conceitos
 
-Um índice 
+
+Conceituação; serventia; propriedades/qualidades
+
+Números índices são medidas estatísticas de síntese de fenômenos, sociais ou naturais, que associam uma grandeza numérica à um conjunto de observações do fenômeno em estudo.
+
+Números-índices são grandezas adimensionais, próprias para serem comparadas com elas mesmos, proporcionando a avaliação de um dado estado do fenômeno no tempo: sua variação, em intensidade e direção (crescimento/descrescimento).
+
+A aplicação mais célebre dentre o grande público é seu uso como medida da inflação de preços. E de fato, dentre os primeiros números índices surgidos, como os índice criado por Etiénne de Laspeyres e ou o índice de Hermann Paasche, foram concebidos com tal propósito, o de medir a evolução do custo de vida.
+
+Em seu trabalho seminal Laspeyres utilizou uma cesta de bens representativa do consumo das famílias para comparar preços ao longo do tempo, mantendo as quantidades constantes (baseadas no período inicial). Esse método permitia avaliar quanto o custo para adquirir a mesma quantidade de bens havia aumentado ou diminuído — ou seja, ele estava preocupado com o poder de compra e o impacto da inflação no bem-estar econômico. LASPEYRES (1871).
+
+
+$$[LASPEYRES]$$
+
+Poucos anos depois, outro estatístico, Hermann Paasche, propôs uma alteração na formulação de Laspeyres. Argumentava que para preservar como representativa a cesta de bens, ela deveria mudar a cada período considerado. Assim, sua alternativa foir manter os preços constantes do período base, mas utilizar as quantidades do período corrente para ponderação. Em outras palavras, enquanto Laspeyres fixa as quantidades do passado, Paasche atualiza os pesos com base na realidade mais recente, procurando refletir com maior aderência o comportamento efetivo do consumidor ou do produtor no presente.
+
+
+$$[PAASCHE]$$
+
+
+Embora os números índices tenham surgido sob o contexto de medir a inflação de preços eles também se prestam a serem índices de quantidade (*quantum*). Os números-índices de quantum prestam-se a mensurar variações no volume físico de produção ou consumo ao longo do tempo, isolando os efeitos de mudanças nominais nos preços. 
+
+Essa metodologia é amplamente empregada em análises macroeconômicas, como na construção de indicadores de produção industrial, Produto Interno Bruto (PIB) real, e no acompanhamento de setores específicos da economia. Ao eliminar o efeito da inflação ou de variações nominais de preços, os índices de quantum permitem uma avaliação mais precisa do crescimento real da atividade econômica, sendo essenciais para formulação de políticas públicas, estudos setoriais e planejamento estratégico.
+
+Existem diversas fórmulas para a construção de índices de quantum, derivadas das abordagens propostas por Laspeyres, Paasche e Fisher. A escolha da metodologia adequada depende do objetivo da análise, da disponibilidade de dados e das propriedades desejadas no índice, como facilidade de cálculo, atualização e representatividade estatística.
+
+No contexto da produção mineral, a aplicação de um índice de quantum revela-se particularmente pertinente. O setor mineral é caracterizado por elevada volatilidade de preços no mercado internacional, o que pode distorcer análises baseadas em valores nominais. A construção de um índice que reflita apenas as variações físicas da produção contribui para diagnósticos mais precisos sobre o desempenho real do setor.
+
+É nesse cenário que se insere o Índice Aberto de Quantum Mineral (IAQM), proposto neste trabalho. O IAQM adota a lógica dos números-índices de quantum para acompanhar, de forma transparente e reprodutível, a evolução da produção mineral brasileira, desconsiderando flutuações de preços e focando exclusivamente no volume físico produzido.
+
+A formulação do IAQM será orientada por critérios metodológicos sólidos, considerando as propriedades essenciais que garantem a robustez de um número-índice, como consistência temporal, reversibilidade e invariância à unidade de medida. Essas características serão detalhadas na próxima seção, dedicada à discussão das Propriedades dos Números-Índices, onde se apresentarão os fundamentos teóricos que norteiam a construção de índices econômicos confiáveis e tecnicamente adequados.
+
+
 
 
 O objetivo teórico mais geral dos índices de produção industrial é o de refletir a
@@ -34,6 +65,14 @@ O IBGE também tem um índice de produção, um produto da PIM-PF. Mas o *índic
 3.3 cálculo dos índices (Fisher)
 
 + 4. Resultados e Discussão
+
+
+
+
+
++ Bibliografia
+
+Laspeyres, E. (1871). "Die Berechnung einer mittleren Warenpreissteigerung" (O cálculo de um aumento médio dos preços das mercadorias).
 
 
 
