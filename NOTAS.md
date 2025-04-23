@@ -3,7 +3,7 @@
 Este trabalho propõe o **Índice Aberto de Quantum Mineral (IAQM)**, uma iniciativa que constrói um índice econômico aberto para acompanhar o desempenho, em termos reais, da produção mineral brasileira. Fundamentado na metodologia dos índices de quantum, o IAQM isola as variações no volume físico produzido das flutuações inflacionárias ao adotar preços constantes. Utiliza dados abertos dos royalties da mineração, disponíveis portais de tranparência pública. O índice é implementado em uma plataforma open source, garantindo reprodutibilidade e controle pela sociedade civil. O IAQM contribui para fortalecer a governança pública, empoderar o controle social e fomentar análises técnicas rigorosas sobre tendências produtivas reais no setor mineral brasileiro.  
 palavras chave: Civic Tech / Dados Livres; Open Science; Open Government Data (OGD)  
 
-## ESTRUTURA  
+## ESTRUTURA
 
 + 1. Introdução    
 
@@ -12,24 +12,24 @@ palavras chave: Civic Tech / Dados Livres; Open Science; Open Government Data (O
 
 Conceituação; serventia; propriedades/qualidades       
 
-Números índices são medidas estatísticas de síntese de fenômenos, sociais ou naturais, que associam uma grandeza numérica à um conjunto de observações do fenômeno em estudo.     
+Números índices são medidas estatísticas de síntese de fenômenos, sociais ou naturais, que associam uma grandeza numérica ao conjunto de observações em análise.     
 
 Números-índices são grandezas adimensionais, próprias para serem comparadas com elas mesmos, proporcionando a avaliação de um dado estado do fenômeno no tempo: sua variação, em intensidade e direção (crescimento/descrescimento).     
 
-A aplicação mais célebre dentre o grande público é seu uso como medida da inflação de preços. E de fato, dentre os primeiros números índices surgidos, como os índice criado por Etiénne de Laspeyres e ou o índice de Hermann Paasche, foram concebidos com tal propósito, o de medir a evolução do custo de vida.    
+A aplicação mais célebre entre o grande público é seu uso como medida da inflação de preços. E de fato, dentre os primeiros números índices surgidos, como os índice criado por Etiénne de Laspeyres e ou o índice de Hermann Paasche, foram concebidos com tal propósito, o de medir a evolução do custo de vida pela variação do preços.  
 
 Em seu trabalho seminal Laspeyres utilizou uma cesta de bens representativa do consumo das famílias para comparar preços ao longo do tempo, mantendo as quantidades constantes (baseadas no período inicial). Esse método permitia avaliar quanto o custo para adquirir a mesma quantidade de bens havia aumentado ou diminuído — ou seja, ele estava preocupado com o poder de compra e o impacto da inflação no bem-estar econômico. LASPEYRES (1871).     
 
 
 $$[LASPEYRES]$$     
 
-Poucos anos depois, outro estatístico, Hermann Paasche, propôs uma alteração na formulação de Laspeyres. Argumentava que para preservar como representativa a cesta de bens, ela deveria mudar a cada período considerado. Assim, sua alternativa foir manter os preços constantes do período base, mas utilizar as quantidades do período corrente para ponderação. Em outras palavras, enquanto Laspeyres fixa as quantidades do passado, Paasche atualiza os pesos com base na realidade mais recente, procurando refletir com maior aderência o comportamento efetivo do consumidor ou do produtor no presente.    
+Poucos anos depois, Hermann Paasche, propôs uma alteração na formulação de Laspeyres. Argumentava que para preservar a cesta de bens como representativa do custo de vida, ela deveria mudar a cada período considerado. Assim, sua alternativa foi manter os preços constantes do período base, mas utilizando as quantidades do período corrente para ponderação. Em outras palavras, enquanto Laspeyres fixa as quantidades do passado, Paasche atualiza os pesos com base na realidade mais recente, procurando refletir com maior aderência o comportamento efetivo do consumidor ou do produtor no presente.    
 
 
 $$[PAASCHE]$$     
 
 
-Embora os números índices tenham surgido sob o contexto de medir a inflação de preços eles também se prestam a serem índices de quantidade (*quantum*). Os números-índices de quantum prestam-se a mensurar variações no volume físico de produção ou consumo ao longo do tempo, isolando os efeitos de mudanças nominais nos preços.     
+Embora os números índices tenham surgido sob o contexto de medir a inflação de preços eles também se prestam a serem índices de quantidade (*quantum*). Os números-índices de quantum mensuram as variações no volume físico de produção ou consumo ao longo do tempo, isolando os efeitos de mudanças nominais nos preços.     
 
 Essa metodologia é amplamente empregada em análises macroeconômicas, como na construção de indicadores de produção industrial, Produto Interno Bruto (PIB) real, e no acompanhamento de setores específicos da economia. Ao eliminar o efeito da inflação ou de variações nominais de preços, os índices de quantum permitem uma avaliação mais precisa do crescimento real da atividade econômica, sendo essenciais para formulação de políticas públicas, estudos setoriais e planejamento estratégico.    
 
@@ -80,7 +80,7 @@ OECD. Producer Price Indices – Methodology. Paris: OECD Publishing, 2004.
 
 
 --------------------------------------------------------------------------  
-## 1. Limpeza da base  
+## 1. Limpeza da base
 
 
 **1.1 Identificar outliers**  
@@ -102,7 +102,7 @@ OECD. Producer Price Indices – Methodology. Paris: OECD Publishing, 2004.
 
 
 
-## 2. Amostragem  
+## 2. Amostragem
 
 + **amostra aleatória estratificada**   
 
@@ -138,7 +138,7 @@ Quando os extratos participam da amostra em proporção diversa a que participam
 
 
 
-### Base fixa ou Encadeado?  
+### Base fixa ou Encadeado?
 
 **Encadeado**: incorpora mudanças nos preços relativos (tecnologia/produtividade/obsolescência; preferências)    
 Base Fixa: medir variação ao longo do tempo em relação a um ponto fixo    
