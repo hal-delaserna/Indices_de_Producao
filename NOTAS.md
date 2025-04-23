@@ -73,7 +73,9 @@ O IBGE também tem um índice de produção, um produto da PIM-PF. Mas o *índic
 
 + Bibliografia    
 
-Laspeyres, E. (1871). "Die Berechnung einer mittleren Warenpreissteigerung" (O cálculo de um aumento médio dos preços das mercadorias).    
+INTERNATIONAL LABOUR OFFICE – ILO. Consumer Price Index Manual: Theory and Practice. Geneva: ILO, 2004.
+
+OECD. Producer Price Indices – Methodology. Paris: OECD Publishing, 2004.
 
 
 
