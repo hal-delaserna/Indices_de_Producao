@@ -12,11 +12,11 @@ palavras chave: Civic Tech / Dados Livres; Open Science; Open Government Data (O
 
 Conceituação; serventia; propriedades/qualidades       
 
-Números índices são medidas estatísticas de síntese de fenômenos, sociais ou naturais, que associam uma grandeza numérica ao conjunto de observações em análise.     
+Números índices são medidas estatísticas de síntese, uma forma de medir fenômenos sociais ou naturais atribuindo uma grandeza numérica a um conjunto de observações em análise.     
 
-Números-índices são grandezas adimensionais, próprias para serem comparadas com elas mesmos, proporcionando a avaliação de um dado estado do fenômeno no tempo: sua variação, em intensidade e direção (crescimento/descrescimento).     
+Números-índices são adimensionais, livres de escala, próprios para serem comparados com eles mesmos dentro da série histórica. Permitem a avaliar a mudança de um fenômeno pelo seu estado no tempo: sua variação, em intensidade e direção (crescimento/descrescimento).     
 
-A aplicação mais célebre entre o grande público é seu uso como medida da inflação de preços. E de fato, dentre os primeiros números índices surgidos, como os índice criado por Etiénne de Laspeyres e ou o índice de Hermann Paasche, foram concebidos com tal propósito, o de medir a evolução do custo de vida pela variação do preços.  
+A aplicação mais célebre entre o grande público é seu uso como medida da inflação de preços. E dentre os primeiros números índices surgidos, como os índice criado por Etiénne de Laspeyres e ou o índice de Hermann Paasche, que levam seus respectivos nomes, foram concebidos com esse propósito, o de medir a evolução do custo de vida pela variação do preços.  
 
 Em seu trabalho seminal Laspeyres utilizou uma cesta de bens representativa do consumo das famílias para comparar preços ao longo do tempo, mantendo as quantidades constantes (baseadas no período inicial). Esse método permitia avaliar quanto o custo para adquirir a mesma quantidade de bens havia aumentado ou diminuído — ou seja, ele estava preocupado com o poder de compra e o impacto da inflação no bem-estar econômico. LASPEYRES (1871).     
 
@@ -37,18 +37,33 @@ Existem diversas fórmulas para a construção de índices de quantum, derivadas
 
 No contexto da produção mineral, a aplicação de um índice de quantum revela-se particularmente pertinente. O setor mineral é caracterizado por elevada volatilidade de preços no mercado internacional, o que pode distorcer análises baseadas em valores nominais. A construção de um índice que reflita apenas as variações físicas da produção contribui para diagnósticos mais precisos sobre o desempenho real do setor.    
 
-É nesse cenário que se insere o Índice Aberto de Quantum Mineral (IAQM), proposto neste trabalho. O IAQM adota a lógica dos números-índices de quantum para acompanhar, de forma transparente e reprodutível, a evolução da produção mineral brasileira, desconsiderando flutuações de preços e focando exclusivamente no volume físico produzido.    
+É nesse cenário que se insere o Índice Aberto de Quantum Mineral (IAQM), proposto neste trabalho. O IAQM adota a lógica dos números-índices de quantum para acompanhar a evolução da produção mineral brasileira, desconsiderando flutuações de preços e focando exclusivamente no volume físico produzido.    
+
+
+
+Índices de quantidade não se limitam comparam as quantidades físicas, em massa ou volume (Kg, m3 ou litros). Para esse fim bastaria o quociente entre as quantidades pra sabermos se aumentou o peso/volume.
+
+Desejamos medir a relevância econômica que as variações nas quantidades tem no consumo e na produção. O aumento na produção de um bem com alto preço impacta mais o valor da produção, pois ele tem mais valor adicionado.
+
+Por isso disemos que medidos são as **variações reais** na produção e não a mera alteração de peso/volume produzido.
+
+
+
+                     O objetivo teórico mais geral dos índices de produção industrial é o de refletir a  
+                     evolução do valor adicionado ao longo do tempo. O valor adicionado mensurado pela  
+                     quantidade de bens e serviços produzidos (seja por estabelecimento, unidade local,  
+                     indústria etc.) que excede os insumos intermediários consumidos. Este pode ser medido  
+                     a preços correntes ou em termos de volume6. (IBGE, 2023, Notas Metô) 
+
+
+
 
 A formulação do IAQM será orientada por critérios metodológicos sólidos, considerando as propriedades essenciais que garantem a robustez de um número-índice, como consistência temporal, reversibilidade e invariância à unidade de medida. Essas características serão detalhadas na próxima seção, dedicada à discussão das Propriedades dos Números-Índices, onde se apresentarão os fundamentos teóricos que norteiam a construção de índices econômicos confiáveis e tecnicamente adequados.    
 
 
 
 
-O objetivo teórico mais geral dos índices de produção industrial é o de refletir a  
-evolução do valor adicionado ao longo do tempo. O valor adicionado mensurado pela  
-quantidade de bens e serviços produzidos (seja por estabelecimento, unidade local,  
-indústria etc.) que excede os insumos intermediários consumidos. Este pode ser medido  
-a preços correntes ou em termos de volume6. (IBGE, 2023, Notas Metô)    
+   
 
 Índices de quantidades informam variações na produção física ao longo do tempo, tanto em termos de direção (alta ou baixa) quanto de intensidade (percentual de variação). O valor absoluto do índice, por si só, é adimensional e representa apenas a razão entre o período corrente e um período-base arbitrário. Assim, o índice é mais útil como medida de comparação temporal, e não como medida autônoma.    
 
