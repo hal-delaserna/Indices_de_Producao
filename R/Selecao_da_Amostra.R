@@ -3,30 +3,33 @@ library(lubridate)
 # library(DescTools)
 source("./R/CARREGAMENTO.R")
 
-# substancias <- c("ALUMÍNIO|COBRE|ZINCO|CHUMBO|NÍQUEL|ESTANHO|FERRO")
+##############################################################
+###################    SUBSETTING    #########################
+##############################################################
+
+substancias <- "FERRO" # c("ALUMÍNIO|COBRE|ZINCO|CHUMBO|NÍQUEL|ESTANHO|FERRO")
   # c("ALUMÍNIO","COBRE","ZINCO","CHUMBO","NÍQUEL","ESTANHO","FERRO")
 
-df <- CFEM
-  # CFEM[grepl(x = CFEM$Substância, pattern = substancias, ignore.case = TRUE),]
+df <- #CFEM
+   CFEM[grepl(x = CFEM$Substância, pattern = substancias, ignore.case = TRUE),]
 
+##############################################################
+###################    TRANSFORMAÇÃO    ######################
+##############################################################
 
-# Ajuste de Unidades
-idx <- df$UnidadeDeMedida == "kg"
-df$QuantidadeComercializada[idx] <- 
-    df$QuantidadeComercializada[idx] / 1000
-df$UnidadeDeMedida[idx] <- "t"
 
 # ID será usado pra individualizar boas/más declarações
 df$id <- 
   paste0("id",df$CPF_CNPJ,df$Substância) |> 
-    gsub(replacement = "", pattern = " ")
-
-# impondo datas
-df$data <- 
-  lubridate::my(paste(df$Mês, df$Ano, sep = "/"))
+  gsub(replacement = "", pattern = " ")
 
 # razão royalty-quantidade
 df$r <- df$ValorRecolhido/df$QuantidadeComercializada
+
+
+##############################################################
+###################    OUTLIERS  MAD    ######################
+##############################################################
 
 
 # Inicializar coluna de confiabilidade
@@ -58,8 +61,6 @@ df_baixa <-
 
 
 
-
-
 # Consolidação Trimestral ou Mensal
 quantidade_total_trimestre <- 
                   tapply(X = df_alta$QuantidadeComercializada
@@ -69,12 +70,15 @@ quantidade_total_trimestre <-
 
 
 
-# Cálculo do Índice de Quantidade (normalização)
 
 
 
 
- 
+
+
+
+
+
 # --------------------------------------------------------------
  
 
@@ -96,6 +100,3 @@ quantidade_total_trimestre <-
 #     } else {
 #       df$confiabilidade[idx] <- "Indefinida"}}}
  
-
-
-

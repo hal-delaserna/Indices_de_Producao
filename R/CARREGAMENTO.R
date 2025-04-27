@@ -19,10 +19,27 @@ CFEM[] <- lapply(CFEM, function(x) {
 
 
 
-# TRimestre 
-trimestre <- 
-  ceiling(as.numeric(CFEM$Mês) / 3)
+# impondo datas
+
+# Mês
+CFEM$data <- 
+  paste(CFEM$Mês, CFEM$Ano, sep = "/") |> lubridate::my()
+
+# TRimestre
+CFEM$Trimestre <- 
+  CFEM$data |> quarter()
 
 CFEM$Trimestre <- 
-  paste0(trimestre, "T", "-", CFEM$Ano)
+  paste0(CFEM$Ano, ".", CFEM$Trimestre)
+
+
+# Ajuste de Unidades
+idx <- CFEM$UnidadeDeMedida == "kg"
+CFEM$QuantidadeComercializada[idx] <- 
+  CFEM$QuantidadeComercializada[idx] / 1000
+CFEM$UnidadeDeMedida[idx] <- "t"
+
+
+
+
 

@@ -5,9 +5,9 @@ palavras chave: Civic Tech / Dados Livres; Open Science; Open Government Data (O
 
 ## ESTRUTURA
 
-+ 1. Introdução    
+### 1. Introdução    
 
-1.1 Revisão da literatura e apresentação de conceitos      
+#### 1.1 Revisão da literatura e apresentação de conceitos      
 
 
 Conceituação; serventia; propriedades/qualidades       
@@ -41,11 +41,11 @@ No contexto da produção mineral, a aplicação de um índice de quantum revela
 
 
 
-Índices de quantidade não se limitam comparam as quantidades físicas, em massa ou volume (Kg, m3 ou litros). Para esse fim bastaria o quociente entre as quantidades pra sabermos se aumentou o peso/volume.
+Índices de quantidade não se limitam comparam as quantidades físicas, em massa ou volume (Kg, m3 ou litros). Para esse fim bastaria o quociente entre as quantidades pra mediar a alteração no peso/volume.
 
-Desejamos medir a relevância econômica que as variações nas quantidades tem no consumo e na produção. O aumento na produção de um bem com alto preço impacta mais o valor da produção, pois ele tem mais valor adicionado.
+Mas desejamos medir é a relevância econômica das variações nas quantidades. O aumento na produção de um bem de preço mais alto impacta mais o valor da produção, pois ele tem mais valor adicionado.
 
-Por isso disemos que medidos são as **variações reais** na produção e não a mera alteração de peso/volume produzido.
+Por isso falamos que medidos as **variações reais** na produção e não a mera alteração de peso/volume produzido.
 
 
 
@@ -62,31 +62,100 @@ A formulação do IAQM será orientada por critérios metodológicos sólidos, c
 
 
 
-
-   
-
 Índices de quantidades informam variações na produção física ao longo do tempo, tanto em termos de direção (alta ou baixa) quanto de intensidade (percentual de variação). O valor absoluto do índice, por si só, é adimensional e representa apenas a razão entre o período corrente e um período-base arbitrário. Assim, o índice é mais útil como medida de comparação temporal, e não como medida autônoma.    
 
 
 O IBGE também tem um índice de produção, um produto da PIM-PF. Mas o *índice de produção - industrias extrativas* abarca o setores de Petróleo & Gás (CNAE 0600-0/01), entre outros*    
 
-+ 2. Objetivo    
+
+#### 2.4 Propriedades dos Números-Índices
+A construção de números-índices confiáveis requer a observância de um conjunto de propriedades axiomáticas que asseguram sua consistência lógica e interpretabilidade econômica. Diversos autores propuseram critérios desejáveis que um índice deve satisfazer, sobretudo nas formulações clássicas de Laspeyres, Paasche e Fisher. Entre as propriedades mais discutidas estão: proporcionalidade, identidade, reversibilidade temporal, invariância à unidade de medida e consistência na agregação (DIEWERT, 1993; ILO, 2004).
+
+a) Proporcionalidade (ou escala)
+A propriedade da proporcionalidade afirma que, se todos os preços (ou quantidades) em um período forem multiplicados por uma constante positiva, o número-índice deve refletir essa mudança proporcional.
+
+Para índices de preços:
+
+Se 
+
+[fórmula]
+
+Essa propriedade assegura que o índice responde de forma previsível a mudanças homogêneas nas variáveis agregadas.
+
+b) Identidade
+Um bom índice deve ser igual a 1 quando os preços (ou quantidades) não variam entre os dois períodos comparados, ou seja, se 
+
+[fórmula]
+
+Isso garante que o índice reconheça situações de invariância como neutras.
+
+c) Reversibilidade Temporal
+A propriedade da reversibilidade exige que, se o índice for calculado no sentido inverso do tempo, ele seja o inverso do índice original:
+
+[fórmula]
+
+Essa propriedade é particularmente importante em comparações bilaterais de períodos.
+
+d) Reversibilidade de Fatores (ou consistência de decomposição)
+Relaciona-se à decomposição da variação de valor em dois fatores: preços e quantidades. Exige que a multiplicação do índice de preços pelo índice de quantum resulte no índice de valor agregado:
+
+[fórmula]
+ 
+Essa relação mostra como o valor total pode ser decomposto de forma consistente entre os dois efeitos.
+
+e) Invariância à unidade de medida
+O índice deve ser inalterado quando os preços ou quantidades forem expressos em unidades diferentes, desde que a conversão seja proporcional. Por exemplo, medir minério em toneladas ou quilogramas não deve afetar o índice.
+
+f) Consistência na agregação
+Exige que a agregação de subíndices em um índice geral obedeça à lógica hierárquica e não contradiga os índices de componentes. Isso é especialmente importante em setores com múltiplos produtos, como o setor mineral.
+
+Essas propriedades não são simultaneamente satisfeitas por todos os tipos de índices. Por exemplo, o índice de Laspeyres satisfaz a identidade e a proporcionalidade, mas não a reversibilidade temporal. Já o índice de Fisher, média geométrica entre Laspeyres e Paasche, é conhecido por satisfazer um maior número de propriedades desejáveis.
+
+A seção empírica deste trabalho considerará essas propriedades como critérios técnicos na escolha e avaliação da fórmula adotada para o Índice Aberto de Quantum Mineral (IAQM).
+
+
+
+
+
+
+
+
+## 2. Objetivo    
 
 “Meu objetivo é construir um índice de quantum da produção mineral brasileira, totalmente open source e baseado em dados de portais de transparência públicos. A iniciativa privilegia reprodutibilidade, transparência, empoderamento cívico e controle social.”  
 
 
-+ 3. Material e Método    
-3.1 Outliers    
-3.2 Amostragem    
-3.3 cálculo dos índices (Fisher)    
-
-+ 4. Resultados e Discussão     
+## 3. Material e Método    
 
 
+### 3.1 Outliers:  
+
+MAD (Desvio Mediano Absoluto)
 
 
 
-+ Bibliografia    
+### 3.2 Amostragem    
+
+Uso de subíndices pelos critérios seguintes: 
+
++ Diferentes alíquotas:
+
++ Diferentes unidades de medida: i) Água Mineral (L); Gemas (g); Gemas(ct); Rochas Ornamentais (m2); Demais substâncias (t)
+
++ Desproporções de representatividade: Ferro; Agregados; Demais substâncias
+
+
+
+### 3.3 cálculo dos índices (Fisher)    
+
+
+## 4. Resultados e Discussão     
+
+
+
+
+
+## Bibliografia    
 
 INTERNATIONAL LABOUR OFFICE – ILO. Consumer Price Index Manual: Theory and Practice. Geneva: ILO, 2004.
 
